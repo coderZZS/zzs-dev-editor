@@ -1,0 +1,23 @@
+input {
+    padding: 0;
+    outline: none;
+    border: none;
+}
+
+img {
+    width: 100%;
+    vertical-align: middle;
+}
+
+html {
+    background-color: $background-color-primary;
+    color: $color-text-primary;
+}
+a {
+    color: $color-text-primary;
+    text-decoration: none;
+}
+p {
+    margin: 0;
+    line-height: 1.5;
+}
