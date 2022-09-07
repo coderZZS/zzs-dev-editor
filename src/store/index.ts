@@ -2,7 +2,7 @@
  * @Descripttion: 配置pinia
  * @Author: BZR
  * @Date: 2022-06-21 16:55:26
- * @LastEditTime: 2022-06-22 09:36:17
+ * @LastEditTime: 2022-09-07 17:40:28
  */
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
