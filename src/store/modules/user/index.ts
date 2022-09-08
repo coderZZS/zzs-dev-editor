@@ -2,14 +2,14 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 17:54:24
- * @LastEditTime: 2022-09-07 17:50:38
+ * @LastEditTime: 2022-09-08 09:48:27
  */
 import { defineStore } from 'pinia'
 import piniaPersistConfig from '@/store/config/piniaPersistConfig'
 import { message } from 'ant-design-vue'
 
-interface UserStore<T> {
-    userInfo: T
+export interface UserStore {
+    userInfo: UserInfo
 }
 interface UserInfo {
     isLogin: boolean
@@ -17,7 +17,7 @@ interface UserInfo {
 }
 
 const useStore = defineStore('userInfo', {
-    state: (): UserStore<UserInfo> => {
+    state: (): UserStore => {
         return {
             userInfo: {
                 isLogin: false,

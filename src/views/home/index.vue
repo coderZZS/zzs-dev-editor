@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:48
- * @LastEditTime: 2022-09-07 17:52:55
+ * @LastEditTime: 2022-09-08 09:56:18
 -->
 <!--
  * @Descripttion: 
@@ -20,7 +20,9 @@
                 <div class="p-10">
                     <a-row type="flex" :gutter="32">
                         <a-col v-for="(item, i) in 6" :key="i" :span="6">
-                            <ProductCard />
+                            <router-link :to="{ name: 'editor' }">
+                                <ProductCard />
+                            </router-link>
                         </a-col>
                     </a-row>
                 </div>

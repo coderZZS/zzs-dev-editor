@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:44:14
- * @LastEditTime: 2022-09-07 17:23:03
+ * @LastEditTime: 2022-09-08 10:05:07
 -->
 <template>
     <div class="header">
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import LoginCheck from '@/components/common/LoginCheck.vue'
+import LoginCheck from '@/components/handle/LoginCheck.vue'
 import { ref, defineEmits, defineProps } from 'vue'
 const search = ref('')
 defineProps({
