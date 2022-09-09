@@ -1,9 +1,3 @@
-<!--
- * @Descripttion: 
- * @Author: BZR
- * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-09-09 15:59:00
--->
 <template>
     <div class="editor">
         <a-layout>

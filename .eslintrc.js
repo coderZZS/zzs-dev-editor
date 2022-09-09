@@ -1,9 +1,3 @@
-/*
- * @Descripttion:
- * @Author: BZR
- * @Date: 2022-06-21 15:38:34
- * @LastEditTime: 2022-09-09 10:19:31
- */
 module.exports = {
     root: true,
     env: {
