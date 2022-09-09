@@ -2,7 +2,7 @@
  * @Descripttion: 配置持久化信息
  * @Author: BZR
  * @Date: 2022-06-21 17:50:37
- * @LastEditTime: 2022-06-21 17:53:59
+ * @LastEditTime: 2022-09-09 09:41:47
  */
 import { PersistedStateOptions } from 'pinia-plugin-persistedstate'
 /**
@@ -11,7 +11,7 @@ import { PersistedStateOptions } from 'pinia-plugin-persistedstate'
 const piniaPersistConfig = (key: string): PersistedStateOptions => {
     const target: PersistedStateOptions = {
         key,
-        storage: window.localStorage
+        storage: window.sessionStorage,
     }
     return target
 }

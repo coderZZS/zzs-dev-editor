@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-09-08 17:14:39
+ * @LastEditTime: 2022-09-09 15:59:00
 -->
 <template>
     <div class="editor">
@@ -12,14 +12,15 @@
             </a-layout-header>
             <a-layout>
                 <!-- 左侧组件列表 -->
-                <a-layout-sider>
-                    <div class="common">
+                <a-layout-sider width="25vw">
+                    <div class="common editor__left" style="background: white">
                         <ComponentTemplateList :list="defaultTextTemplates" @onItemClick="onTemplateItemClick" />
                     </div>
                 </a-layout-sider>
                 <!-- 画布 -->
-                <a-layout-content>
-                    <div class="common">
+                <a-layout-content width="50vw">
+                    <div>画布区域</div>
+                    <div class="common editor__center">
                         <EditWrapper v-for="component in components" :id="component.id" :key="component.id" @onItemClick="onHandelItemClick">
                             <component :is="useComponentWidthName(component.name as ComponentName)" v-bind="component.props"></component>
                         </EditWrapper>
@@ -27,12 +28,15 @@
                     </div>
                 </a-layout-content>
                 <!-- 右边组件属性 -->
-                <a-layout-sider>
-                    <div class="common">
-                        <PropsTable v-if="currentElement" :props="currentElement.props" />
-                        <pre>
-                            {{ currentElement?.props }}
-                        </pre>
+                <a-layout-sider width="25vw" style="background: white">
+                    <div class="common editor__right">
+                        <template v-if="currentElement">
+                            <PropsTable :props="currentElement.props" @change="onChange" />
+                            <pre>
+                                {{ currentElement?.props }}
+                            </pre>
+                            <Handles type="delete" text="删除" @handleClick="handleClickDelete" />
+                        </template>
                     </div>
                 </a-layout-sider>
             </a-layout>
@@ -50,10 +54,11 @@ import useComponentWidthName, { ComponentName } from '@/hooks/useComponentWithNa
 import { CommonDefaultProps } from '@/defaultProps'
 import EditWrapper from '@/components/editor/EditWrapper.vue'
 import PropsTable from '@/components/editor/PropsTable.vue'
+import Handles from '@/components/editor/Handles'
 
 const components = computed(() => editorStore.$state.components)
 
-const currentElement = computed(() => editorStore.$state.currentElementData)
+const currentElement = computed(() => editorStore.currentElementData)
 const onTemplateItemClick = (componentInfo: CommonDefaultProps) => {
     editorStore.addComponent(componentInfo)
 }
@@ -61,13 +66,32 @@ const onTemplateItemClick = (componentInfo: CommonDefaultProps) => {
 const onHandelItemClick = (id: string) => {
     editorStore.setActiveComponent(id)
 }
+
+const onChange = (e: any) => {
+    editorStore.updateComponent(e)
+}
+
+const handleClickDelete = () => {
+    editorStore.deleteComponent()
+}
 </script>
 
 <style scoped lang="scss">
 @include b(editor) {
-    @apply h-[100%] flex flex-row;
+    @apply w-[100%] h-[100%] flex flex-row;
     @include b(common) {
-        @apply bg-slate-400 h-[100%] relative;
+        @apply h-[100%] relative;
+    }
+    @include e(left) {
+        @apply bg-white;
+    }
+    @include e(center) {
+        margin: 0 auto;
+        @apply w-[60%] bg-white top-[10%];
+        height: 60% !important;
+    }
+    @include e(right) {
+        @apply px-5 py-5 w-[100%];
     }
 }
 </style>
