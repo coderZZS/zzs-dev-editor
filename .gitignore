@@ -2,19 +2,19 @@ logs/
 npm-debug.log
 node_modules/
 coverage/
-.idea/
+# .idea/
 run/
 logs/
 .DS_Store
-.vscode
+# .vscode
 *.swp
 *.lock
-*.js
-!.autod.conf.js
+# *.js
+# !.autod.conf.js
 
-app/**/*.js
-test/**/*.js
-config/**/*.js
+# app/**/*.js
+# test/**/*.js
+# config/**/*.js
 app/**/*.map
 test/**/*.map
 config/**/*.map
