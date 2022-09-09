@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 10:55:34
- * @LastEditTime: 2022-09-07 10:42:26
+ * @LastEditTime: 2022-09-09 18:39:09
  */
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -18,6 +18,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': resolve(__dirname, 'src'),
+            '@/': resolve(__dirname, 'src/*'),
         },
     },
     css: {

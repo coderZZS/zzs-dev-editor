@@ -6,15 +6,15 @@ coverage/
 run/
 logs/
 .DS_Store
-.vscode
+# .vscode
 *.swp
 *.lock
 # *.js
-!.autod.conf.js
+# !.autod.conf.js
 
-app/**/*.js
-test/**/*.js
-config/**/*.js
+# app/**/*.js
+# test/**/*.js
+# config/**/*.js
 app/**/*.map
 test/**/*.map
 config/**/*.map
