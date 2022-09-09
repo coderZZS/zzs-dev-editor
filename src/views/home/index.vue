@@ -1,15 +1,3 @@
-<!--
- * @Descripttion: 
- * @Author: BZR
- * @Date: 2022-09-07 10:36:48
- * @LastEditTime: 2022-09-08 09:56:18
--->
-<!--
- * @Descripttion: 
- * @Author: BZR
- * @Date: 2022-09-07 10:36:48
- * @LastEditTime: 2022-09-07 10:40:56
--->
 <template>
     <div class="home">
         <a-layout justify="space-around">
