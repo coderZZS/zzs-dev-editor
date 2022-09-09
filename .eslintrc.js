@@ -1,9 +1,3 @@
-/*
- * @Descripttion:
- * @Author: BZR
- * @Date: 2022-06-21 15:38:34
- * @LastEditTime: 2022-09-09 18:25:55
- */
 module.exports = {
     root: true,
     env: {
@@ -24,6 +18,6 @@ module.exports = {
     rules: {
         'vue/multi-word-component-names': 'off', // 关闭多词组件名称规范
         'vue/v-on-event-hyphenation': 'off',
-        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-explicit-any': ['off'],
     },
 }
