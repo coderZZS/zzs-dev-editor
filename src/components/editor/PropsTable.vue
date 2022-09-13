@@ -2,16 +2,16 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 16:28:18
- * @LastEditTime: 2022-09-09 15:53:56
+ * @LastEditTime: 2022-09-13 15:54:07
 -->
 <template>
     <div class="props-table">
         <div v-for="(value, key) in finalProps" :key="key" class="props-table__item">
             <span class="props-table__title">{{ value?.text }}</span>
             <div class="props-table__component">
-                <component :is="value?.component" :[value.valueProp]="value.value" v-bind="value?.extraProps" v-on="value.events">
+                <component :is="useComponentWithName(value?.component)" :[value.valueProp]="value.value" v-bind="value?.extraProps" v-on="value.events">
                     <template v-if="value.options && value.subComponent">
-                        <component :is="value.subComponent" v-for="(option, i) in value.options" :key="i" :value="option.value">
+                        <component :is="useComponentWithName(value.subComponent)" v-for="(option, i) in value.options" :key="i" :value="option.value">
                             <render-vnode :v-node="option.text"></render-vnode>
                         </component>
                     </template>
@@ -27,6 +27,8 @@ import { reduce } from 'lodash-es'
 import { mapPropsToForms } from '@/propsMap'
 import { TextDefaultProps } from '@/defaultProps'
 import RenderVnode from '@/components/common/RenderVnode'
+import useComponentWithName from '@/hooks/useComponentWithName'
+
 type TextDefaultPropsPartial = Partial<TextDefaultProps>
 interface FormProps {
     component: string

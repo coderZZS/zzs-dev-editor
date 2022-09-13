@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 17:54:24
- * @LastEditTime: 2022-09-09 16:00:45
+ * @LastEditTime: 2022-09-13 18:16:33
  */
 import { defineStore } from 'pinia'
 // import piniaPersistConfig from '@/store/config/piniaPersistConfig'
@@ -29,7 +29,11 @@ export interface ComponentData {
 export const testComponents: ComponentData[] = [
     { id: uuidv4(), name: 'z-text', props: { text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } },
     { id: uuidv4(), name: 'z-text', props: { text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } },
-    { id: uuidv4(), name: 'z-text', props: { text: 'hello3', fontSize: '64px', color: 'red', position: 'relative', textAlign: 'left', fontFamily: '"SimHei","STHeiti"', opacity: 1 } },
+    {
+        id: uuidv4(),
+        name: 'z-text',
+        props: { text: 'hello3', fontSize: '64px', color: '#000000', position: 'relative', textAlign: 'left', fontFamily: '"SimHei","STHeiti"', opacity: 1, fontWeight: 'bold', fontStyle: 'oblique' },
+    },
 ]
 
 const useStore = defineStore('editor', {

@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-08 16:23:36
- * @LastEditTime: 2022-09-09 16:01:27
+ * @LastEditTime: 2022-09-13 18:16:00
  */
 import { h, VNode } from 'vue'
 import { TextDefaultProps } from './defaultProps'
@@ -77,5 +77,22 @@ export const mapPropsToForms: PropsToForms = {
         extraProps: { min: 0, max: 1, step: 0.01 },
         initalTransform: (v: string) => parseFloat(v),
         afterTransform: (e: number) => e.toString(),
+    },
+    color: {
+        text: '字体颜色',
+        component: 'color-picker',
+    },
+    fontWeight: {
+        text: '字体加粗',
+        component: 'tooltip',
+    },
+    fontStyle: {
+        text: '字体倾斜',
+        component: 'tooltip',
+        extraProps: {
+            text: 'I',
+            tips: '倾斜',
+            activeValue: 'oblique',
+        },
     },
 }

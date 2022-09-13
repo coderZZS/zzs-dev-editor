@@ -2,8 +2,9 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 10:55:34
- * @LastEditTime: 2022-09-07 10:42:26
+ * @LastEditTime: 2022-09-13 09:47:40
  */
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
@@ -28,6 +29,13 @@ export default defineConfig({
 					@import "@/styles/tools/index.scss";
 				`,
             },
+        },
+    },
+    test: {
+        globals: true,
+        environment: 'happy-dom',
+        transformMode: {
+            web: [/\.[jt]sx$/],
         },
     },
 })
