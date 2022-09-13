@@ -1,6 +1,4 @@
 {
     "nuxt.isNuxtApp": false,
-    // "css.validate": false,
-    // "less.validate": false,
     "scss.validate": false
 }
