@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-09-14 09:14:57
+ * @LastEditTime: 2022-09-14 11:38:02
 -->
 <template>
     <div class="editor">
@@ -41,6 +41,7 @@
                 </a-layout-sider>
             </a-layout>
         </a-layout>
+        <Uploader action="/api/upload" />
     </div>
 </template>
 
@@ -55,6 +56,7 @@ import { CommonDefaultProps } from '@/defaultProps'
 import EditWrapper from '@/components/editor/EditWrapper.vue'
 import PropsTable from '@/components/editor/PropsTable.vue'
 import Handles from '@/components/editor/Handles'
+import Uploader from '@/components/common/Uploader'
 
 const components = computed(() => editorStore.$state.components)
 

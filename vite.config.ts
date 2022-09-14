@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 10:55:34
- * @LastEditTime: 2022-09-14 09:28:05
+ * @LastEditTime: 2022-09-14 11:59:15
  */
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
@@ -15,6 +15,13 @@ export default defineConfig({
     plugins: [vue(), vueJsx()],
     server: {
         port: 8888,
+        proxy: {
+            '/api': {
+                target: 'http://127.0.0.1:7001',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+        },
     },
     resolve: {
         alias: {
