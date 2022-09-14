@@ -2,9 +2,9 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-13 09:53:33
- * @LastEditTime: 2022-09-13 18:32:55
+ * @LastEditTime: 2022-09-14 09:31:12
  */
-import Tooltip from '..'
+import Tooltip from '../index'
 
 import { mount, VueWrapper } from '@vue/test-utils'
 import { beforeAll, describe, expect, it } from 'vitest'
@@ -24,8 +24,7 @@ describe('Color Picker component', () => {
         // 测试文字是否正常显示
         const contentElement = wrapper.get('.tooltip__content').element as HTMLElement
         expect(contentElement.innerText).toBe('B')
-        console.log(contentElement.style)
-        // TODO 测试未完成
-        // expect(contentElement.style.fontStyle).toBe('700')
+        const tipsElement = wrapper.get('.tooltip__tips').element as HTMLElement
+        expect(tipsElement.innerText).toBe('加粗')
     })
 })

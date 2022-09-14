@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-08 16:23:36
- * @LastEditTime: 2022-09-13 18:16:00
+ * @LastEditTime: 2022-09-14 09:16:49
  */
 import { h, VNode } from 'vue'
 import { TextDefaultProps } from './defaultProps'
@@ -85,6 +85,7 @@ export const mapPropsToForms: PropsToForms = {
     fontWeight: {
         text: '字体加粗',
         component: 'tooltip',
+        initalTransform: (v: string) => !!v.length,
     },
     fontStyle: {
         text: '字体倾斜',
@@ -94,5 +95,6 @@ export const mapPropsToForms: PropsToForms = {
             tips: '倾斜',
             activeValue: 'oblique',
         },
+        initalTransform: (v: string) => !!v.length,
     },
 }

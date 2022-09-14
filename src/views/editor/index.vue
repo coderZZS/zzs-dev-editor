@@ -1,3 +1,9 @@
+<!--
+ * @Descripttion: 
+ * @Author: BZR
+ * @Date: 2022-09-07 10:36:53
+ * @LastEditTime: 2022-09-14 09:14:57
+-->
 <template>
     <div class="editor">
         <a-layout>
@@ -85,7 +91,7 @@ const handleClickDelete = () => {
         height: 60% !important;
     }
     @include e(right) {
-        @apply px-5 py-5 w-[100%];
+        @apply px-5 py-5 w-[100%] h-[100%] overflow-auto;
     }
 }
 </style>

@@ -2,9 +2,9 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-13 09:53:33
- * @LastEditTime: 2022-09-13 15:26:56
+ * @LastEditTime: 2022-09-14 09:29:16
  */
-import ColorPicker from '../index.vue'
+import ColorPicker from '../index'
 
 import { mount, VueWrapper } from '@vue/test-utils'
 import { beforeAll, describe, expect, it } from 'vitest'

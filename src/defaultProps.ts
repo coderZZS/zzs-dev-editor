@@ -4,7 +4,7 @@ import { mapValues, without } from 'lodash-es'
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-08 11:03:38
- * @LastEditTime: 2022-09-08 15:45:25
+ * @LastEditTime: 2022-09-14 09:18:11
  */
 export interface CommonDefaultProps {
     tag: string
@@ -35,7 +35,7 @@ export const commonDefaultProps: CommonDefaultProps = {
     url: '',
     // size
     height: '',
-    width: '318px',
+    width: '200px',
     paddingLeft: '0px',
     paddingRight: '0px',
     paddingTop: '0px',
