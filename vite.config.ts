@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 10:55:34
- * @LastEditTime: 2022-09-14 11:59:15
+ * @LastEditTime: 2022-09-15 09:47:33
  */
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
@@ -41,7 +41,7 @@ export default defineConfig({
     },
     test: {
         globals: true,
-        environment: 'happy-dom',
+        environment: 'jsdom',
         transformMode: {
             web: [/\.[jt]sx$/],
         },

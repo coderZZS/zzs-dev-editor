@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-13 09:53:33
- * @LastEditTime: 2022-09-14 09:31:12
+ * @LastEditTime: 2022-09-15 10:00:26
  */
 import Tooltip from '../index'
 
@@ -22,9 +22,9 @@ describe('Color Picker component', () => {
     })
     it('should render the correct interface', () => {
         // 测试文字是否正常显示
-        const contentElement = wrapper.get('.tooltip__content').element as HTMLElement
-        expect(contentElement.innerText).toBe('B')
-        const tipsElement = wrapper.get('.tooltip__tips').element as HTMLElement
-        expect(tipsElement.innerText).toBe('加粗')
+        const contentElement = wrapper.get('.tooltip__content')
+        expect(contentElement.text()).toBe('B')
+        const tipsElement = wrapper.get('.tooltip__tips')
+        expect(tipsElement.text()).toBe('加粗')
     })
 })

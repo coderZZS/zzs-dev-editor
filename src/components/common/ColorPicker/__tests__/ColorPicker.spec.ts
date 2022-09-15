@@ -2,9 +2,10 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-13 09:53:33
- * @LastEditTime: 2022-09-14 09:29:16
+ * @LastEditTime: 2022-09-15 09:55:59
  */
 import ColorPicker from '../index'
+import rgbHex from 'rgb-hex'
 
 import { mount, VueWrapper } from '@vue/test-utils'
 import { beforeAll, describe, expect, it } from 'vitest'
@@ -28,7 +29,7 @@ describe('Color Picker component', () => {
         expect(wrapper.findAll('.picked-color-list li').length).toBe(defaultColors.length)
         // 检查对应元素的css是否相等
         const firstItem = wrapper.get('li:first-child div').element as HTMLElement
-        expect(firstItem.style.background).toBe(defaultColors[0])
+        expect('#' + rgbHex(firstItem.style.background)).toBe(defaultColors[0])
         // 测试最后一个元素是否有特殊的类名
         const lastItem = wrapper.get('li:last-child div').element as HTMLElement
         expect(lastItem.classList.contains('transparent-back')).toBeTruthy()

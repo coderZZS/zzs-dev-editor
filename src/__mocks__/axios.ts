@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-14 17:33:09
- * @LastEditTime: 2022-09-14 18:03:32
+ * @LastEditTime: 2022-09-15 10:19:12
  */
 import { vi } from 'vitest'
 
@@ -16,5 +16,7 @@ const datas: { [key in Datakeys]: Success } = {
 }
 
 export default {
-    get: vi.fn((url: Datakeys = 'upload') => Promise.resolve(datas[url])),
+    // get: vi.fn((url: Datakeys = 'upload') => Promise.resolve(datas[url])),
+    get: vi.fn(),
+    post: vi.fn(),
 }
