@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 10:55:34
- * @LastEditTime: 2022-09-15 09:47:33
+ * @LastEditTime: 2022-09-16 16:38:51
  */
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
@@ -20,6 +20,7 @@ export default defineConfig({
                 target: 'http://127.0.0.1:7001',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
+                ws: false,
             },
         },
     },
