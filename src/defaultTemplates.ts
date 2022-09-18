@@ -4,7 +4,6 @@
  * @Date: 2022-09-08 14:08:39
  * @LastEditTime: 2022-09-08 15:20:11
  */
-import { TextDefaultProps } from './defaultProps'
 export const defaultTextTemplates = [
     {
         text: '大标题',

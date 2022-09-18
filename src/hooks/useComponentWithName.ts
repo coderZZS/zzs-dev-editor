@@ -6,11 +6,13 @@
  */
 import { Component } from 'vue'
 import ZText from '@/components/common/ZText.vue'
+import ZImage from '@/components/common/ZImage.vue'
 import ColorPicker from '@/components/common/ColorPicker'
 import Tooltip from '@/components/common/Tooltip'
 
 const map: { [key: string]: Component } = {
     'z-text': ZText,
+    'z-image': ZImage,
     'color-picker': ColorPicker,
     tooltip: Tooltip,
 }

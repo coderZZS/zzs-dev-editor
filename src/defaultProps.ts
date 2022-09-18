@@ -1,4 +1,5 @@
-import { mapValues, without } from 'lodash-es'
+import { ComponentProps } from '@/store/modules/editor';
+import { keys, mapValues, without } from 'lodash-es'
 
 /*
  * @Descripttion:
@@ -83,8 +84,30 @@ export const textDefaultProps: TextDefaultProps = {
     ...commonDefaultProps,
 }
 
-export const textStylePropsNames = without(Object.keys(textDefaultProps), 'actionType', 'text', 'url', 'tag')
+export interface ImageComponentProps extends CommonDefaultProps {
+    src: string
+}
+export const imageDefaultProps: ImageComponentProps = {
+    src: 'test.url',
+    ...commonDefaultProps
+}
 
-export const transformToComponentProps = (props: TextDefaultProps) => {
-    return mapValues(props, (item: any) => ({ type: item.constructor, default: item }))
+export type PropsTypes = TextDefaultProps & ImageComponentProps
+
+export const textStylePropsNames = without(Object.keys(textDefaultProps), 'actionType', 'text', 'url', 'tag')
+export const imageDefaultPropsNames = without(Object.keys(imageDefaultProps))
+
+export const transformToComponentProps = <T = object>(props: T) => {
+    type ReturnType = {[key in keyof T]: any}
+    const obj: ReturnType = {} as ReturnType
+
+    Object.keys(props).forEach((key: string) => {
+        const value = props[key as keyof T] as any
+        obj[key as keyof T] = {
+            type: value.constructor,
+            default: value
+        }
+    })
+    return obj
+    // return mapValues(props, (item: any) => ({ type: item.constructor, default: item }))
 }

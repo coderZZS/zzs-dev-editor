@@ -6,46 +6,50 @@
 -->
 <template>
     <div class="file-upload">
-        <slot v-if="isLoading" name="loading">
-            <AButton type="primary" size="large" class="upload-button" :disabled="fileStatus === 'loading'" @click="triggerUpload">
-                <template #icon>
-                    <folder-add-two-tone :style="{ fontSize: '20px', verticalAlign: 'top' }" />
-                </template>
-                <span class="file-upload__text">{{ uploadStatusText['loading'] }}</span>
-            </AButton>
-        </slot>
-        <slot v-else-if="lastFileData && lastFileData.loaded" name="uploaded" :uploaded-data="lastFileData.data">
-            <AButton type="primary" size="large" class="upload-button" :disabled="fileStatus === 'loading'" @click="triggerUpload">
-                <template #icon>
-                    <folder-add-two-tone :style="{ fontSize: '20px', verticalAlign: 'top' }" />
-                </template>
-                <span class="file-upload__text">{{ uploadStatusText['ready'] }}</span>
-            </AButton>
-        </slot>
-        <slot v-else name="default">
-            <AButton type="primary" size="large" class="upload-button" :disabled="fileStatus === 'loading'" @click="triggerUpload">
-                <template #icon>
-                    <folder-add-two-tone :style="{ fontSize: '20px', verticalAlign: 'top' }" />
-                </template>
-                <span class="file-upload__text">{{ uploadStatusText['ready'] }}</span>
-            </AButton>
-        </slot>
-        <input ref="uploadInput" type="file" class="upload-input" @change="handleFileChange" />
-        <ul class="uploaded-list">
-            <li v-for="file in uploadedFiles" :key="file.uid" :class="`uploaded-file upload-${file.status}`">
-                <div>
-                    <span class="filename">{{ file.name }}</span>
-                    <span class="progress">{{ file.progress }}</span>
-                </div>
-                <AButton class="delete-icon" type="dashed" danger size="small" @click="deleteFile(file.uid)">删除</AButton>
-            </li>
-        </ul>
+        <div class="file-upload">
+            <div class="upload-area" :class="{ 'upload-dragover': props.drag && isDragOver }" v-on="events">
+                <slot v-if="isLoading" name="loading">
+                    <AButton type="primary" size="large" class="upload-button" :disabled="fileStatus === 'loading'">
+                        <template #icon>
+                            <folder-add-two-tone :style="{ fontSize: '20px', verticalAlign: 'top' }" />
+                        </template>
+                        <span class="file-upload__text">{{ uploadStatusText['loading'] }}</span>
+                    </AButton>
+                </slot>
+                <slot v-else-if="lastFileData && lastFileData.loaded" name="uploaded" :uploaded-data="lastFileData.data">
+                    <AButton type="primary" size="large" class="upload-button" :disabled="fileStatus === 'loading'">
+                        <template #icon>
+                            <folder-add-two-tone :style="{ fontSize: '20px', verticalAlign: 'top' }" />
+                        </template>
+                        <span class="file-upload__text">{{ uploadStatusText['ready'] }}</span>
+                    </AButton>
+                </slot>
+                <slot v-else name="default">
+                    <AButton type="primary" size="large" class="upload-button" :disabled="fileStatus === 'loading'">
+                        <template #icon>
+                            <folder-add-two-tone :style="{ fontSize: '20px', verticalAlign: 'top' }" />
+                        </template>
+                        <span class="file-upload__text">{{ uploadStatusText['ready'] }}</span>
+                    </AButton>
+                </slot>
+                <input ref="uploadInput" type="file" class="upload-input" @change="handleFileChange" />
+                <ul v-if="props.showFileList" class="uploaded-list">
+                    <li v-for="file in uploadedFiles" :key="file.uid" :class="`uploaded-file upload-${file.status}`">
+                        <div>
+                            <span class="filename">{{ file.name }}</span>
+                            <span class="progress">{{ file.progress }}</span>
+                        </div>
+                        <AButton class="delete-icon" type="dashed" danger size="small" @click="deleteFile(file.uid)">删除</AButton>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { FolderAddTwoTone } from '@ant-design/icons-vue'
-import { ref, defineProps, reactive, computed, PropType } from 'vue'
+import { ref, defineProps, reactive, computed, PropType, defineEmits } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 import { last } from 'lodash'
@@ -66,6 +70,8 @@ type UploadStatusText = {
 }
 type CheckUpload = (file?: File) => boolean | Promise<File>
 
+const emit = defineEmits(['onProgress', 'onSuccess', 'onError', 'onChange'])
+
 const props = defineProps({
     action: {
         type: String,
@@ -74,6 +80,14 @@ const props = defineProps({
     beforeUpload: {
         type: Function as PropType<CheckUpload>,
         default: () => () => true,
+    },
+    drag: {
+        type: Boolean,
+        default: false,
+    },
+    showFileList: {
+        type: Boolean,
+        default: false,
     },
 })
 const uploadInput = ref<null | HTMLInputElement>(null)
@@ -108,6 +122,7 @@ const handleFileChange = async (e: Event) => {
     const target = e.target as HTMLInputElement
     const files = target.files
     if (files?.length) {
+        emit('onChange', files[0], files, e)
         const uploadFile = files[0]
         const res = props.beforeUpload(uploadFile)
         if (res && res instanceof Promise) {
@@ -148,6 +163,7 @@ const postFile = (uploadFile: File) => {
                 if (progress === 100) {
                     fileObj.progress = '完成'
                 }
+                emit('onProgress', progress)
             },
         })
         .then((res) => {
@@ -155,10 +171,12 @@ const postFile = (uploadFile: File) => {
             fileObj.status = 'success'
             fileStatus.value = 'success'
             fileObj.resp = res.data
+            emit('onSuccess', res)
         })
-        .catch(() => {
+        .catch((e) => {
             fileObj.status = 'error'
             fileStatus.value = 'error'
+            emit('onError', e)
         })
         .finally(() => {
             if (uploadInput.value?.value) {
@@ -171,6 +189,35 @@ const deleteFile = (uid: string) => {
     uploadedFiles.value = uploadedFiles.value.filter((file) => {
         return file.uid !== uid
     })
+}
+
+let events: { [key: string]: (e: any) => void } = {
+    click: triggerUpload,
+}
+const isDragOver = ref(false)
+const handleDrag = (e: DragEvent, over: boolean) => {
+    e.preventDefault()
+    isDragOver.value = over
+}
+
+const handleDrop = (e: DragEvent) => {
+    e.preventDefault()
+    isDragOver.value = false
+    if (e.dataTransfer) {
+        postFile(e.dataTransfer.files[0])
+    }
+}
+if (props.drag) {
+    events = {
+        ...events,
+        dragover: (e: DragEvent) => {
+            handleDrag(e, true)
+        },
+        dragleave: (e: DragEvent) => {
+            handleDrag(e, false)
+        },
+        drop: handleDrop,
+    }
 }
 </script>
 <style scoped lang="scss">

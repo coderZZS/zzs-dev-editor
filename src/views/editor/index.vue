@@ -41,7 +41,6 @@
                 </a-layout-sider>
             </a-layout>
         </a-layout>
-        <Uploader action="/api/upload" />
     </div>
 </template>
 
@@ -52,16 +51,15 @@ import ComponentTemplateList from '@/components/editor/ComponentTemplateList.vue
 import { defaultTextTemplates } from '@/defaultTemplates'
 import { editorStore } from '@/store/modules'
 import useComponentWidthName, { ComponentName } from '@/hooks/useComponentWithName'
-import { CommonDefaultProps } from '@/defaultProps'
 import EditWrapper from '@/components/editor/EditWrapper.vue'
 import PropsTable from '@/components/editor/PropsTable.vue'
 import Handles from '@/components/editor/Handles'
-import Uploader from '@/components/common/Uploader'
+import { ComponentData } from '@/store/modules/editor'
 
 const components = computed(() => editorStore.$state.components)
 
 const currentElement = computed(() => editorStore.currentElementData)
-const onTemplateItemClick = (componentInfo: CommonDefaultProps) => {
+const onTemplateItemClick = (componentInfo: ComponentData) => {
     editorStore.addComponent(componentInfo)
 }
 

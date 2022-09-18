@@ -7,7 +7,7 @@
 import { defineStore } from 'pinia'
 // import piniaPersistConfig from '@/store/config/piniaPersistConfig'
 import { v4 as uuidv4 } from 'uuid'
-import { TextDefaultProps } from '@/defaultProps'
+import { TextDefaultProps, ImageComponentProps } from '@/defaultProps'
 
 export interface EditorProps {
     // 组件数据列表
@@ -16,10 +16,10 @@ export interface EditorProps {
     currentElement: string | null
 }
 
-type TextDefaultPropsPartial = Partial<TextDefaultProps>
+export type ComponentProps = TextDefaultProps | ImageComponentProps
 export interface ComponentData {
     // 元素属性
-    props: TextDefaultPropsPartial
+    props: ComponentProps
     // uuid
     id: string
     // 组件名称
@@ -27,13 +27,18 @@ export interface ComponentData {
 }
 
 export const testComponents: ComponentData[] = [
-    { id: uuidv4(), name: 'z-text', props: { text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } },
-    { id: uuidv4(), name: 'z-text', props: { text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } },
+    { id: uuidv4(), name: 'z-text', props: { text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } as TextDefaultProps},
+    { id: uuidv4(), name: 'z-text', props: { text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } as TextDefaultProps },
     {
         id: uuidv4(),
         name: 'z-text',
-        props: { text: 'hello3', fontSize: '64px', color: '#000000', position: 'relative', textAlign: 'left', fontFamily: '"SimHei","STHeiti"', opacity: 1, fontWeight: 'bold', fontStyle: 'oblique' },
+        props: { text: 'hello3', fontSize: '64px', color: '#000000', position: 'relative', textAlign: 'left', fontFamily: '"SimHei","STHeiti"', opacity: 1, fontWeight: 'bold', fontStyle: 'oblique' } as TextDefaultProps ,
     },
+    // {
+    //     id: uuidv4(),
+    //     name: 'z-image',
+    //     props: { src: '', width: '50px', height: '50px', position: 'relative' } as ImageComponentProps
+    // }
 ]
 
 const useStore = defineStore('editor', {
@@ -47,13 +52,9 @@ const useStore = defineStore('editor', {
         currentElementData: (state) => state.components.find((c) => c.id === state.currentElement) || null,
     },
     actions: {
-        addComponent(props: TextDefaultPropsPartial) {
-            const component: ComponentData = {
-                id: uuidv4(),
-                name: 'z-text',
-                props,
-            }
+        addComponent(component: ComponentData) {
             this.components.push(component)
+            
         },
         setActiveComponent(id: string) {
             this.currentElement = this.components.find((c) => c.id === id)?.id || null
@@ -61,7 +62,7 @@ const useStore = defineStore('editor', {
         updateComponent({ key, value }: { key: string; value: any }) {
             const component = this.currentElementData
             if (component) {
-                component.props[key as keyof TextDefaultPropsPartial] = value
+                (component.props[key as keyof ComponentProps] as any) = value
             }
         },
         deleteComponent() {
