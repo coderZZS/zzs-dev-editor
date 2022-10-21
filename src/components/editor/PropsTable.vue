@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 16:28:18
- * @LastEditTime: 2022-09-13 15:54:07
+ * @LastEditTime: 2022-10-20 14:27:32
 -->
 <template>
     <div class="props-table">
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, defineProps, defineEmits, VNode } from 'vue'
+import { computed, PropType, VNode } from 'vue'
 import { reduce } from 'lodash-es'
 import { mapPropsToForms } from '@/propsMap'
 import { TextDefaultProps } from '@/defaultProps'

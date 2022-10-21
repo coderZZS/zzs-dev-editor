@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 14:12:58
- * @LastEditTime: 2022-09-08 15:43:48
+ * @LastEditTime: 2022-10-20 16:53:42
 -->
 <template>
     <div class="create-component-list">
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, PropType } from 'vue'
+import { PropType } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { TextDefaultProps, imageDefaultProps } from '@/defaultProps'
 import ZText from '@/components/common/ZText.vue'
@@ -59,7 +59,8 @@ const onUploadScuuess = (res: any) => {
         const imgWidth = width > maxWidth ? maxWidth : width
         component.props.width = imgWidth + 'px'
         component.props.height = imgWidth / scale + 'px'
-        console.log(component.props.width, component.props.height);
+        component.props.position = 'relative'
+        console.log(component.props.width, component.props.height, component);
         emit('onItemClick', component)
     })
     

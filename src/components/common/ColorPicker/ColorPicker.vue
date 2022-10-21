@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-13 14:24:59
- * @LastEditTime: 2022-09-13 16:04:58
+ * @LastEditTime: 2022-10-20 15:50:48
 -->
 <template>
     <div class="zzs-color-picker">
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, defineProps, defineEmits } from 'vue'
+import { PropType } from 'vue'
 // const defaultColors = ['#ffffff', '#f5222d', '#fa541c', '#fadb14', '#52c41a', '#1890ff', '#722ed1', '#8c8c8c', '#000000', '']
 const emit = defineEmits(['change'])
 const props = defineProps({
@@ -35,6 +35,12 @@ const props = defineProps({
 
 const onChange = (color: string) => {
     emit('change', color)
+}
+</script>
+
+<script lang="ts">
+export default {
+    name: 'ColorPicker',
 }
 </script>
 

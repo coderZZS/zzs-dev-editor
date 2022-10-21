@@ -2,7 +2,7 @@
  * @Descripttion: 卡片小组件
  * @Author: BZR
  * @Date: 2022-09-07 11:39:31
- * @LastEditTime: 2022-09-07 15:23:20
+ * @LastEditTime: 2022-10-20 14:27:36
 -->
 <template>
     <div class="product_card">
@@ -27,7 +27,6 @@
 
 <script setup lang="ts">
 import img from '@/assets/zhendong.png'
-import { defineProps } from 'vue'
 const props = defineProps({
     cover: {
         type: String,

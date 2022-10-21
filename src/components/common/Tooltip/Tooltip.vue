@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-13 16:41:58
- * @LastEditTime: 2022-09-13 18:29:22
+ * @LastEditTime: 2022-10-20 14:27:06
 -->
 <template>
     <div class="tooltip_container">
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from 'vue'
+import { ref } from 'vue'
 const props = defineProps({
     value: {
         type: Boolean,

@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:37:04
- * @LastEditTime: 2022-09-07 17:53:31
+ * @LastEditTime: 2022-10-20 14:27:41
 -->
 <template>
     <div class="template_detail">
@@ -46,7 +46,6 @@
 <script setup lang="ts">
 import img from '@/assets/zhendong.png'
 import Header from '../../components/common/Header.vue'
-import { defineProps } from 'vue'
 const props = defineProps({
     cover: {
         type: String,

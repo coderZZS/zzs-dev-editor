@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-14 10:37:03
- * @LastEditTime: 2022-09-16 18:17:25
+ * @LastEditTime: 2022-10-20 14:27:13
 -->
 <template>
     <div class="file-upload">
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { FolderAddTwoTone } from '@ant-design/icons-vue'
-import { ref, defineProps, reactive, computed, PropType, defineEmits } from 'vue'
+import { ref, reactive, computed, PropType } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 import { last } from 'lodash'

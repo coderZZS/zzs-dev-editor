@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-09-14 11:38:02
+ * @LastEditTime: 2022-10-20 17:16:33
 -->
 <template>
     <div class="editor">
@@ -55,6 +55,17 @@ import EditWrapper from '@/components/editor/EditWrapper.vue'
 import PropsTable from '@/components/editor/PropsTable.vue'
 import Handles from '@/components/editor/Handles'
 import { ComponentData } from '@/store/modules/editor'
+import mitt from '@/utils/mitt'
+
+type UpdateCompnentType = {
+    key: any
+    value: any
+}
+mitt.on('updateComponent', (data) => {
+    console.log('datra------------------------------', data);
+    
+    editorStore.updateComponent(data as UpdateCompnentType)
+})
 
 const components = computed(() => editorStore.$state.components)
 
@@ -87,7 +98,7 @@ const handleClickDelete = () => {
     }
     @include e(center) {
         margin: 0 auto;
-        @apply w-[60%] bg-white top-[10%];
+        @apply w-[375px] bg-white top-[10%];
         height: 60% !important;
     }
     @include e(right) {

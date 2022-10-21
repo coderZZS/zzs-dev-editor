@@ -2,23 +2,26 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 10:05:26
- * @LastEditTime: 2022-09-08 15:45:46
+ * @LastEditTime: 2022-10-20 16:02:52
 -->
 <template>
-    <img :style="(styleProps as CSSProperties)" :src="commonStore.imgUrl" alt="" class="img-component" />
+    <img :style="(styleProps as CSSProperties)" :src="src" alt="" class="img-component" />
 </template>
 
 <script setup lang="ts">
-import { CSSProperties, defineProps } from 'vue'
+import { CSSProperties, computed } from 'vue'
 import { commonStore } from '@/store/modules'
 import { transformToComponentProps, imageDefaultProps, imageDefaultPropsNames } from '@/defaultProps'
 import useComponentCommon from '@/hooks/useComponentCommon'
 
+const src = computed(() => {
+    return props.src || commonStore.imgUrl
+})
 
 const props = defineProps({
     ...transformToComponentProps(imageDefaultProps),
 })
-const { styleProps, handelClick } = useComponentCommon(props, imageDefaultPropsNames)
+const { styleProps } = useComponentCommon(props, imageDefaultPropsNames)
 </script>
 
 <style scoped lang="scss">

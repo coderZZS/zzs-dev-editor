@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 15:55:10
- * @LastEditTime: 2022-09-13 18:14:01
+ * @LastEditTime: 2022-10-20 14:27:23
 -->
 <template>
     <div
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed } from 'vue'
+import { computed } from 'vue'
 import { editorStore } from '@/store/modules'
 const activeComponentId = computed(() => editorStore.currentElement)
 const props = defineProps({

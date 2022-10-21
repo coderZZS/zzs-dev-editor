@@ -2,11 +2,12 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-08 16:23:36
- * @LastEditTime: 2022-09-14 09:16:49
+ * @LastEditTime: 2022-10-20 17:25:24
  */
 import { h, VNode } from 'vue'
-import { TextDefaultProps } from './defaultProps'
-
+import { TextDefaultProps, ImageComponentProps } from './defaultProps'
+import { editorStore } from './store/modules'
+import { computed } from 'vue'
 export interface PorpToForm {
     component: string
     subComponent?: string
@@ -20,7 +21,7 @@ export interface PorpToForm {
 }
 
 export type PropsToForms = {
-    [p in keyof TextDefaultProps]?: PorpToForm
+    [p in keyof (TextDefaultProps & ImageComponentProps)]?: PorpToForm
 }
 
 const fontFamilyOptions = [
@@ -96,5 +97,19 @@ export const mapPropsToForms: PropsToForms = {
             activeValue: 'oblique',
         },
         initalTransform: (v: string) => !!v.length,
+    },
+    width: {
+        text: '宽度',
+        component: 'a-slider',
+        extraProps: { min: 0, max: 375, step: 0.1 },
+        initalTransform: (v: string) => parseFloat(v),
+        afterTransform: (e: number) => e + 'px',
+    },
+    src: {
+        text: '图片',
+        component: 'image-processer',
+        extraProps: {
+            src: computed(() => (editorStore.currentElementData?.props as ImageComponentProps)?.src).value,
+        },
     },
 }
