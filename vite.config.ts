@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 10:55:34
- * @LastEditTime: 2022-09-16 16:38:51
+ * @LastEditTime: 2022-10-24 15:55:23
  */
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
@@ -17,7 +17,7 @@ export default defineConfig({
         port: 8888,
         proxy: {
             '/api': {
-                target: 'http://127.0.0.1:7001',
+                target: 'http://127.0.0.1:3000',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
                 ws: false,

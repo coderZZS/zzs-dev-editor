@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-14 10:37:03
- * @LastEditTime: 2022-10-20 14:27:13
+ * @LastEditTime: 2022-10-24 16:36:21
 -->
 <template>
     <div class="file-upload">
@@ -53,6 +53,7 @@ import { ref, reactive, computed, PropType } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 import { last } from 'lodash'
+import { uploadFile as uploader } from '@/utils'
 
 interface UploadFile {
     uid: string
@@ -139,7 +140,7 @@ const handleFileChange = async (e: Event) => {
     }
 }
 
-const postFile = (uploadFile: File) => {
+const postFile = async (uploadFile: File) => {
     fileStatus.value = 'loading'
     const formData = new FormData()
     formData.append(uploadFile.name, uploadFile)
@@ -152,37 +153,66 @@ const postFile = (uploadFile: File) => {
         progress: 0,
     })
     uploadedFiles.value.push(fileObj)
-    axios
-        .post(props.action, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            onUploadProgress: (e) => {
-                const progress = parseInt((e.loaded / e.total) * 100 + '')
-                fileObj.progress = progress + '%'
-                if (progress === 100) {
+
+    try {
+        const res = await uploader({
+            file: uploadFile,
+            updateProgress: (progress: number) => {
+                const currentProgress = progress * 100
+                console.log('上传中...', currentProgress + '%')
+                if (currentProgress === 100) {
                     fileObj.progress = '完成'
                 }
                 emit('onProgress', progress)
             },
         })
-        .then((res) => {
-            console.log(res)
-            fileObj.status = 'success'
-            fileStatus.value = 'success'
-            fileObj.resp = res.data
-            emit('onSuccess', res)
-        })
-        .catch((e) => {
-            fileObj.status = 'error'
-            fileStatus.value = 'error'
-            emit('onError', e)
-        })
-        .finally(() => {
-            if (uploadInput.value?.value) {
-                uploadInput.value.value = ''
-            }
-        })
+        console.log('res', '--------------', res);
+        
+        fileObj.status = 'success'
+        fileStatus.value = 'success'
+        fileObj.resp = res
+        emit('onSuccess', res)
+        console.log('res', res)
+    } catch (error) {
+        fileObj.status = 'error'
+        fileStatus.value = 'error'
+        emit('onError', error)
+    }
+    if (uploadInput.value?.value) {
+        uploadInput.value.value = ''
+    }
+
+    // axios
+    //     .post(props.action, formData, {
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data',
+    //         },
+    //         onUploadProgress: (e) => {
+    //             const progress = parseInt((e.loaded / e.total) * 100 + '')
+    //             fileObj.progress = progress + '%'
+    //             if (progress === 100) {
+    //                 fileObj.progress = '完成'
+    //             }
+    //             emit('onProgress', progress)
+    //         },
+    //     })
+    //     .then((res) => {
+    //         console.log(res)
+    //         fileObj.status = 'success'
+    //         fileStatus.value = 'success'
+    //         fileObj.resp = res.data
+    //         emit('onSuccess', res)
+    //     })
+    //     .catch((e) => {
+    //         fileObj.status = 'error'
+    //         fileStatus.value = 'error'
+    //         emit('onError', e)
+    //     })
+    //     .finally(() => {
+    //         if (uploadInput.value?.value) {
+    //             uploadInput.value.value = ''
+    //         }
+    //     })
 }
 
 const deleteFile = (uid: string) => {

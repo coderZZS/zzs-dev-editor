@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 10:55:34
- * @LastEditTime: 2022-10-20 17:21:39
+ * @LastEditTime: 2022-10-24 14:10:01
  */
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -18,6 +18,7 @@ const app = createApp(App)
 
 // app.component(ColorPicker.name, ColorPicker)
 // app.component(ImageProcesser.name, ImageProcesser)
+console.log('环境', import.meta.env, import.meta);
 
 app.use(pinia)
 app.use(router)

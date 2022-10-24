@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 14:12:58
- * @LastEditTime: 2022-10-20 16:53:42
+ * @LastEditTime: 2022-10-24 16:41:04
 -->
 <template>
     <div class="create-component-list">
@@ -49,7 +49,7 @@ const onUploadScuuess = (res: any) => {
         id: uuidv4(),
         props: {
             ...imageDefaultProps,
-            src: res.data.url
+            src: res
         }
     }
     getImgDimensions(commonStore.imgUrl).then(({width, height}) => {

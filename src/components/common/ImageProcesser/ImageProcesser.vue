@@ -2,15 +2,20 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-10-20 15:17:26
- * @LastEditTime: 2022-10-20 17:28:04
+ * @LastEditTime: 2022-10-24 17:32:33
 -->
 <template>
     <div class="image-processer">
-        <img class="preview-img" :src="src" alt="" />
+        <img ref="" class="preview-img" :src="src" alt="" />
         <div class="handles">
             <Uploader action="/api/upload" @on-success="changeComponentFile" />
-            <a-button>点击裁剪</a-button>
+            <a-button @click="visible = true">点击裁剪</a-button>
         </div>
+        <a-modal v-model:visible="visible" title="Basic Modal" @ok="handleOk">
+            <div class="propper-container">
+                <img ref="propperImg" class="propper-container--img" :src="src" alt="" />
+            </div>
+        </a-modal>
     </div>
 </template>
 <script lang="ts">
@@ -19,18 +24,43 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import { computed } from 'vue'
+import 'cropperjs/dist/cropper.css'
+import { computed, ref, watch } from 'vue'
 import Uploader from '@/components/common/Uploader'
 import mitt from '@/utils/mitt'
 import { editorStore } from '@/store/modules'
 import { ImageComponentProps } from '@/defaultProps'
+import Cropper from 'cropperjs'
+import { nextTick } from 'process'
 
 const changeComponentFile = (data: any) => {
-    const { url } = data.data
-    mitt.emit('updateComponent', { key: 'src', value: url })
+    mitt.emit('updateComponent', { key: 'src', value: data })
 }
 
 const src = computed(() => (editorStore.currentElementData?.props as ImageComponentProps)?.src || '')
+
+const visible = ref(false)
+const propperImg = ref<null | HTMLImageElement>(null)
+let cropper: Cropper
+const handleOk = () => {
+    visible.value = false
+}
+watch(
+    () => visible.value,
+    async (val) => {
+        if (val) {
+            await nextTick(() => null)
+            if (!propperImg.value) return
+            cropper = new Cropper(propperImg.value, {
+                crop(event: any) {
+                    console.log(event, '---------')
+                },
+            })
+        } else {
+            cropper.destroy()
+        }
+    }
+)
 </script>
 
 <style scoped lang="scss">
@@ -41,6 +71,11 @@ const src = computed(() => (editorStore.currentElementData?.props as ImageCompon
     }
     @include b(handles) {
         @apply flex-1 flex flex-col justify-between;
+    }
+    @include b(propper-container) {
+        @include m(img) {
+            @apply max-w-full block;
+        }
     }
 }
 </style>
