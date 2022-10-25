@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-10-20 17:16:33
+ * @LastEditTime: 2022-10-25 15:39:55
 -->
 <template>
     <div class="editor">
@@ -30,13 +30,26 @@
                 <!-- 右边组件属性 -->
                 <a-layout-sider width="25vw" style="background: white">
                     <div class="common editor__right">
-                        <template v-if="currentElement">
-                            <PropsTable :props="currentElement.props" @change="onChange" />
-                            <pre>
-                                {{ currentElement?.props }}
-                            </pre>
-                            <Handles type="delete" text="删除" @handleClick="handleClickDelete" />
-                        </template>
+                        <a-tabs v-model:activeKey="activeKey">
+                            <a-tab-pane key="1" tab="属性">
+                                <template v-if="currentElement">
+                                    <template v-if="!currentElement.isLocked">
+                                        <PropsTable :props="currentElement.props" @change="onChange" />
+                                        <pre>
+                                        {{ currentElement?.props }}
+                                    </pre
+                                        >
+                                        <Handles type="delete" text="删除" @handleClick="handleClickDelete" />
+                                    </template>
+                                    <template v-else>
+                                        <div>图层已锁定</div>
+                                    </template>
+                                </template>
+                            </a-tab-pane>
+                            <a-tab-pane key="2" tab="图层" force-render>
+                                <LayerList @handle-change="changeLayer" />
+                            </a-tab-pane>
+                        </a-tabs>
                     </div>
                 </a-layout-sider>
             </a-layout>
@@ -45,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import Header from '../../components/common/Header.vue'
 import ComponentTemplateList from '@/components/editor/ComponentTemplateList.vue'
 import { defaultTextTemplates } from '@/defaultTemplates'
@@ -53,8 +66,10 @@ import { editorStore } from '@/store/modules'
 import useComponentWidthName, { ComponentName } from '@/hooks/useComponentWithName'
 import EditWrapper from '@/components/editor/EditWrapper.vue'
 import PropsTable from '@/components/editor/PropsTable.vue'
+import LayerList from '@/components/editor/LayerList.vue'
 import Handles from '@/components/editor/Handles'
 import { ComponentData } from '@/store/modules/editor'
+import { ChangeEmitType } from '@/components/editor/LayerList.vue'
 import mitt from '@/utils/mitt'
 
 type UpdateCompnentType = {
@@ -62,14 +77,15 @@ type UpdateCompnentType = {
     value: any
 }
 mitt.on('updateComponent', (data) => {
-    console.log('datra------------------------------', data);
-    
     editorStore.updateComponent(data as UpdateCompnentType)
 })
 
 const components = computed(() => editorStore.$state.components)
 
 const currentElement = computed(() => editorStore.currentElementData)
+watch(currentElement, (val) => {
+    console.log('val', val)
+})
 const onTemplateItemClick = (componentInfo: ComponentData) => {
     editorStore.addComponent(componentInfo)
 }
@@ -85,6 +101,14 @@ const onChange = (e: any) => {
 const handleClickDelete = () => {
     editorStore.deleteComponent()
 }
+
+const changeLayer = (data: ChangeEmitType) => {
+    console.log('data', data)
+
+    editorStore.updateComponent(data)
+}
+
+const activeKey = ref('1')
 </script>
 
 <style scoped lang="scss">

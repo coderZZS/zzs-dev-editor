@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 17:54:24
- * @LastEditTime: 2022-09-13 18:16:33
+ * @LastEditTime: 2022-10-25 17:03:30
  */
 import { defineStore } from 'pinia'
 // import piniaPersistConfig from '@/store/config/piniaPersistConfig'
@@ -24,15 +24,32 @@ export interface ComponentData {
     id: string
     // 组件名称
     name: string
+    // 图层是否隐藏
+    isHide?: boolean
+    // 图层是否锁定
+    isLocked?: boolean
+    // 图层名称
+    layerName: string
 }
 
 export const testComponents: ComponentData[] = [
-    { id: uuidv4(), name: 'z-text', props: { text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } as TextDefaultProps},
-    { id: uuidv4(), name: 'z-text', props: { text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } as TextDefaultProps },
+    { id: uuidv4(), name: 'z-text', props: { text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } as TextDefaultProps, layerName: '图层1' },
+    { id: uuidv4(), name: 'z-text', props: { text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } as TextDefaultProps, layerName: '图层2' },
     {
         id: uuidv4(),
         name: 'z-text',
-        props: { text: 'hello3', fontSize: '64px', color: '#000000', position: 'relative', textAlign: 'left', fontFamily: '"SimHei","STHeiti"', opacity: 1, fontWeight: 'bold', fontStyle: 'oblique' } as TextDefaultProps ,
+        props: {
+            text: 'hello3',
+            fontSize: '64px',
+            color: '#000000',
+            position: 'relative',
+            textAlign: 'left',
+            fontFamily: '"SimHei","STHeiti"',
+            opacity: 1,
+            fontWeight: 'bold',
+            fontStyle: 'oblique',
+        } as TextDefaultProps,
+        layerName: '图层3'
     },
     // {
     //     id: uuidv4(),
@@ -54,15 +71,21 @@ const useStore = defineStore('editor', {
     actions: {
         addComponent(component: ComponentData) {
             this.components.push(component)
-            
         },
         setActiveComponent(id: string) {
             this.currentElement = this.components.find((c) => c.id === id)?.id || null
         },
-        updateComponent({ key, value }: { key: string; value: any }) {
+        updateComponent({ key, value, id }: { key: string; value: any; id?: string }) {
+            if (id) {
+                this.setActiveComponent(id)
+            }
             const component = this.currentElementData
             if (component) {
-                (component.props[key as keyof ComponentProps] as any) = value
+                if (id) {
+                    (component as any)[key] = value
+                } else {
+                    (component.props[key as keyof ComponentProps] as any) = value
+                }
             }
         },
         deleteComponent() {

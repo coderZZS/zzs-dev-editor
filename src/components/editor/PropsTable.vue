@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 16:28:18
- * @LastEditTime: 2022-10-20 14:27:32
+ * @LastEditTime: 2022-10-25 15:29:56
 -->
 <template>
     <div class="props-table">
