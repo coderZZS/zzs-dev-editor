@@ -2,18 +2,30 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 17:54:24
- * @LastEditTime: 2022-10-25 17:03:30
+ * @LastEditTime: 2022-10-28 17:27:25
  */
 import { defineStore } from 'pinia'
 // import piniaPersistConfig from '@/store/config/piniaPersistConfig'
 import { v4 as uuidv4 } from 'uuid'
 import { TextDefaultProps, ImageComponentProps } from '@/defaultProps'
-
+import { commonDefaultProps } from '@/defaultProps'
 export interface EditorProps {
     // 组件数据列表
     components: ComponentData[]
     // 当前编辑的元素  uuid
-    currentElement: string | null
+    currentElement: string | null,
+    page: PageData
+}
+
+export interface PageDataProps {
+    backgroundImage?: string
+    height: string
+    backgroundColor: string
+}
+
+export interface PageData {
+    props: PageDataProps
+    title: string
 }
 
 export type ComponentProps = TextDefaultProps | ImageComponentProps
@@ -29,16 +41,22 @@ export interface ComponentData {
     // 图层是否锁定
     isLocked?: boolean
     // 图层名称
-    layerName: string
+    layerName?: string
 }
 
 export const testComponents: ComponentData[] = [
-    { id: uuidv4(), name: 'z-text', props: { text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } as TextDefaultProps, layerName: '图层1' },
-    { id: uuidv4(), name: 'z-text', props: { text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } as TextDefaultProps, layerName: '图层2' },
+    { id: uuidv4(), name: 'z-text', props: { ...commonDefaultProps, text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } as TextDefaultProps, layerName: '图层1' },
+    {
+        id: uuidv4(),
+        name: 'z-text',
+        props: { ...commonDefaultProps, text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } as TextDefaultProps,
+        layerName: '图层2',
+    },
     {
         id: uuidv4(),
         name: 'z-text',
         props: {
+            ...commonDefaultProps,
             text: 'hello3',
             fontSize: '64px',
             color: '#000000',
@@ -49,7 +67,7 @@ export const testComponents: ComponentData[] = [
             fontWeight: 'bold',
             fontStyle: 'oblique',
         } as TextDefaultProps,
-        layerName: '图层3'
+        layerName: '图层3',
     },
     // {
     //     id: uuidv4(),
@@ -63,6 +81,13 @@ const useStore = defineStore('editor', {
         return {
             components: testComponents,
             currentElement: '',
+            page: {
+                props: {
+                    height: '560px',
+                    backgroundColor: '#fff'
+                },
+                title: '页面标题'
+            }
         }
     },
     getters: {
@@ -82,15 +107,18 @@ const useStore = defineStore('editor', {
             const component = this.currentElementData
             if (component) {
                 if (id) {
-                    (component as any)[key] = value
+                    ;(component as any)[key] = value
                 } else {
-                    (component.props[key as keyof ComponentProps] as any) = value
+                    ;(component.props[key as keyof ComponentProps] as any) = value
                 }
             }
         },
         deleteComponent() {
             this.components = this.components.filter((component) => component.id !== this.currentElement)
         },
+        setPageData({key, value}: {key: string; value: any}) {
+            this.page.props[key as keyof PageDataProps] = value
+        }
     },
     persist: false,
 })

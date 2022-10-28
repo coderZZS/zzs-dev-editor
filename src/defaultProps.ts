@@ -4,7 +4,7 @@ import { without } from 'lodash-es'
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-08 11:03:38
- * @LastEditTime: 2022-10-20 15:05:00
+ * @LastEditTime: 2022-10-28 16:55:54
  */
 export interface CommonDefaultProps {
     tag: string
@@ -25,7 +25,10 @@ export interface CommonDefaultProps {
     position: string
     left: string
     top: string
-    right: string
+    right: string,
+    backgroundImage?: string,
+    backgroundSize?: string
+    backgroundRepeat?: string
 }
 
 export const commonDefaultProps: CommonDefaultProps = {
@@ -84,7 +87,7 @@ export const textDefaultProps: TextDefaultProps = {
 }
 
 export interface ImageComponentProps extends CommonDefaultProps {
-    src: string
+    src?: string
 }
 export const imageDefaultProps: ImageComponentProps = {
     src: 'test.url',
@@ -110,3 +113,5 @@ export const transformToComponentProps = <T = object>(props: T) => {
     return obj
     // return mapValues(props, (item: any) => ({ type: item.constructor, default: item }))
 }
+
+export type AllComponentProps = CommonDefaultProps & ImageComponentProps & TextDefaultProps

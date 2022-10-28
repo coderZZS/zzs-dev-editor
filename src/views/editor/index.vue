@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-10-25 15:39:55
+ * @LastEditTime: 2022-10-28 18:30:48
 -->
 <template>
     <div class="editor">
@@ -21,9 +21,11 @@
                 <a-layout-content width="50vw">
                     <div>画布区域</div>
                     <div class="common editor__center">
-                        <EditWrapper v-for="component in components" :id="component.id" :key="component.id" @onItemClick="onHandelItemClick">
-                            <component :is="useComponentWidthName(component.name as ComponentName)" v-bind="component.props"></component>
-                        </EditWrapper>
+                        <div class="body-container" :style="page.props">
+                            <EditWrapper v-for="component in components" :id="component.id" :key="component.id" @onItemClick="onHandelItemClick">
+                                <component :is="useComponentWidthName(component.name as ComponentName)" v-bind="component.props"></component>
+                            </EditWrapper>
+                        </div>
                         <!-- <z-text v-for="component in components" :key="component.id" v-bind="component.props" /> -->
                     </div>
                 </a-layout-content>
@@ -34,7 +36,8 @@
                             <a-tab-pane key="1" tab="属性">
                                 <template v-if="currentElement">
                                     <template v-if="!currentElement.isLocked">
-                                        <PropsTable :props="currentElement.props" @change="onChange" />
+                                        <EditorGroup :props="currentElement.props"></EditorGroup>
+                                        <!-- <PropsTable :props="currentElement.props" @change="onChange" /> -->
                                         <pre>
                                         {{ currentElement?.props }}
                                     </pre
@@ -48,6 +51,9 @@
                             </a-tab-pane>
                             <a-tab-pane key="2" tab="图层" force-render>
                                 <LayerList @handle-change="changeLayer" />
+                            </a-tab-pane>
+                            <a-tab-pane key="3" tab="页面设置" force-render>
+                                <PropsTable :props="page.props" @change="changePageData" />
                             </a-tab-pane>
                         </a-tabs>
                     </div>
@@ -66,6 +72,7 @@ import { editorStore } from '@/store/modules'
 import useComponentWidthName, { ComponentName } from '@/hooks/useComponentWithName'
 import EditWrapper from '@/components/editor/EditWrapper.vue'
 import PropsTable from '@/components/editor/PropsTable.vue'
+import EditorGroup from '@/components/editor/EditorGroup.vue'
 import LayerList from '@/components/editor/LayerList.vue'
 import Handles from '@/components/editor/Handles'
 import { ComponentData } from '@/store/modules/editor'
@@ -103,12 +110,17 @@ const handleClickDelete = () => {
 }
 
 const changeLayer = (data: ChangeEmitType) => {
-    console.log('data', data)
 
     editorStore.updateComponent(data)
 }
 
 const activeKey = ref('1')
+
+const page = computed(() => editorStore.page)
+
+const changePageData = (e: any) => {
+    editorStore.setPageData(e)
+}
 </script>
 
 <style scoped lang="scss">
@@ -122,8 +134,9 @@ const activeKey = ref('1')
     }
     @include e(center) {
         margin: 0 auto;
-        @apply w-[375px] bg-white top-[10%];
-        height: 60% !important;
+        @apply max-w-[375px] min-h-[200px] overflow-y-auto overflow-x-hidden fixed mt-[50px] max-h-[80vh] bg-white;
+        @include b(body-container) {
+        }
     }
     @include e(right) {
         @apply px-5 py-5 w-[100%] h-[100%] overflow-auto;

@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-10-25 16:39:31
- * @LastEditTime: 2022-10-25 17:42:40
+ * @LastEditTime: 2022-10-27 10:34:45
 -->
 <template>
     <div ref="wapper" class="inlone_edit" @click="showInput">
@@ -29,6 +29,12 @@ const props = defineProps({
     },
 })
 const innerValue = ref(props.modelValue)
+watch(
+    () => props.modelValue,
+    (val) => {
+        innerValue.value = val
+    }
+)
 const isEditing = ref(false)
 const emit = defineEmits(['changeModelValue'])
 let defaultText = ''
@@ -43,7 +49,7 @@ useKeyPress('Enter', () => {
         emit('changeModelValue', {
             id: props.elementId,
             key: 'layerName',
-            value: innerValue.value
+            value: innerValue.value,
         })
         isEditing.value = false
     }
@@ -70,7 +76,7 @@ watch(isOutside, (flag) => {
         emit('changeModelValue', {
             id: props.elementId,
             key: 'layerName',
-            value: innerValue.value
+            value: innerValue.value,
         })
     }
 })

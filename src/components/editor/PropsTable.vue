@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-08 16:28:18
- * @LastEditTime: 2022-10-25 15:29:56
+ * @LastEditTime: 2022-10-28 16:58:29
 -->
 <template>
     <div class="props-table">
@@ -25,11 +25,12 @@
 import { computed, PropType, VNode } from 'vue'
 import { reduce } from 'lodash-es'
 import { mapPropsToForms } from '@/propsMap'
-import { TextDefaultProps } from '@/defaultProps'
+import { TextDefaultProps, AllComponentProps } from '@/defaultProps'
 import RenderVnode from '@/components/common/RenderVnode'
 import useComponentWithName from '@/hooks/useComponentWithName'
+import { PageData } from '@/store/modules/editor'
 
-type TextDefaultPropsPartial = Partial<TextDefaultProps>
+export type AllComponentPropsPartial = Partial<AllComponentProps & PageData>
 interface FormProps {
     component: string
     subComponent?: string
@@ -46,7 +47,7 @@ const emit = defineEmits(['change'])
 
 const props = defineProps({
     props: {
-        type: Object as PropType<TextDefaultPropsPartial>,
+        type: Object as PropType<AllComponentPropsPartial>,
         required: true,
     },
 })
@@ -58,12 +59,12 @@ const finalProps = computed(() => {
             const newKey = key as keyof TextDefaultProps
             const item = mapPropsToForms[newKey]
             if (item) {
-                const { valueProp = 'value', eventName = 'change', initalTransform, afterTransform } = item
+                const { valueProp = 'value', eventName = 'change', intialTransform, afterTransform } = item
                 const newItem: FormProps = {
                     ...item,
                     valueProp,
                     eventName,
-                    value: initalTransform ? initalTransform(val) : val,
+                    value: intialTransform ? intialTransform(val) : val,
                     events: {
                         [eventName]: (e: any) => {
                             emit('change', { key, value: afterTransform ? afterTransform(e) : e })
