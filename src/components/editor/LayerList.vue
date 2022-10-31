@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-10-25 14:12:16
- * @LastEditTime: 2022-10-26 15:52:48
+ * @LastEditTime: 2022-10-31 15:25:38
 -->
 <template>
     <div class="layer_list">
@@ -17,7 +17,7 @@
                         <div class="layer_list__item--handle" @click="handleChange({ id: layer.id, key: 'isLocked', value: !layer.isLocked })">
                             <lock-outlined v-if="!layer.isLocked" />
                             <unlock-outlined v-else />
-                        </div>
+                        </div>InlineEdit
                         <div class="layer_list__item--handle text">
                             <InlineEdit :model-value="layer.layerName" :element-id="layer.id" @change-model-value="changeLineText"></InlineEdit>
                         </div>

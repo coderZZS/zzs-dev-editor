@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-10-28 18:30:48
+ * @LastEditTime: 2022-10-31 15:25:25
 -->
 <template>
     <div class="editor">
@@ -22,8 +22,8 @@
                     <div>画布区域</div>
                     <div class="common editor__center">
                         <div class="body-container" :style="page.props">
-                            <EditWrapper v-for="component in components" :id="component.id" :key="component.id" @onItemClick="onHandelItemClick">
-                                <component :is="useComponentWidthName(component.name as ComponentName)" v-bind="component.props"></component>
+                            <EditWrapper v-for="component in components" :id="component.id" :key="component.id" :props="component.props" @onItemClick="onHandelItemClick">
+                                <component :is="useComponentWidthName(component.name as ComponentName)" v-bind="component.props" style="position: 'sticky'"></component>
                             </EditWrapper>
                         </div>
                         <!-- <z-text v-for="component in components" :key="component.id" v-bind="component.props" /> -->
@@ -36,12 +36,11 @@
                             <a-tab-pane key="1" tab="属性">
                                 <template v-if="currentElement">
                                     <template v-if="!currentElement.isLocked">
-                                        <EditorGroup :props="currentElement.props"></EditorGroup>
+                                        <EditorGroup :props="currentElement.props" @change="onChange"></EditorGroup>
                                         <!-- <PropsTable :props="currentElement.props" @change="onChange" /> -->
                                         <pre>
-                                        {{ currentElement?.props }}
-                                    </pre
-                                        >
+                                            {{ currentElement?.props }}
+                                        </pre>
                                         <Handles type="delete" text="删除" @handleClick="handleClickDelete" />
                                     </template>
                                     <template v-else>
@@ -110,7 +109,6 @@ const handleClickDelete = () => {
 }
 
 const changeLayer = (data: ChangeEmitType) => {
-
     editorStore.updateComponent(data)
 }
 

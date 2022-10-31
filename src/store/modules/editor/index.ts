@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 17:54:24
- * @LastEditTime: 2022-10-28 17:27:25
+ * @LastEditTime: 2022-10-31 15:46:13
  */
 import { defineStore } from 'pinia'
 // import piniaPersistConfig from '@/store/config/piniaPersistConfig'
@@ -45,35 +45,36 @@ export interface ComponentData {
 }
 
 export const testComponents: ComponentData[] = [
-    { id: uuidv4(), name: 'z-text', props: { ...commonDefaultProps, text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } as TextDefaultProps, layerName: '图层1' },
-    {
-        id: uuidv4(),
-        name: 'z-text',
-        props: { ...commonDefaultProps, text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } as TextDefaultProps,
-        layerName: '图层2',
-    },
-    {
-        id: uuidv4(),
-        name: 'z-text',
-        props: {
-            ...commonDefaultProps,
-            text: 'hello3',
-            fontSize: '64px',
-            color: '#000000',
-            position: 'relative',
-            textAlign: 'left',
-            fontFamily: '"SimHei","STHeiti"',
-            opacity: 1,
-            fontWeight: 'bold',
-            fontStyle: 'oblique',
-        } as TextDefaultProps,
-        layerName: '图层3',
-    },
+    // { id: uuidv4(), name: 'z-text', props: { ...commonDefaultProps, text: 'hello1', fontSize: '16px', position: 'relative', textAlign: 'center' } as TextDefaultProps, layerName: '图层1' },
     // {
     //     id: uuidv4(),
-    //     name: 'z-image',
-    //     props: { src: '', width: '50px', height: '50px', position: 'relative' } as ImageComponentProps
-    // }
+    //     name: 'z-text',
+    //     props: { ...commonDefaultProps, text: 'hello2', fontSize: '32px', lineHeight: '1', position: 'relative', textAlign: 'left' } as TextDefaultProps,
+    //     layerName: '图层2',
+    // },
+    // {
+    //     id: uuidv4(),
+    //     name: 'z-text',
+    //     props: {
+    //         ...commonDefaultProps,
+    //         text: 'hello3',
+    //         fontSize: '64px',
+    //         color: '#000000',
+    //         position: 'relative',
+    //         textAlign: 'left',
+    //         fontFamily: '"SimHei","STHeiti"',
+    //         opacity: 1,
+    //         fontWeight: 'bold',
+    //         fontStyle: 'oblique',
+    //     } as TextDefaultProps,
+    //     layerName: '图层3',
+    // },
+    {
+        id: uuidv4(),
+        name: 'z-image',
+        layerName: '图片',
+        props: { ...commonDefaultProps, src: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fbbs.leyuz.net%2Fuploads%2F202008%2F04%2F15965036454524.jpeg&refer=http%3A%2F%2Fbbs.leyuz.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666080077&t=286a473b6b1309a048a493ad858b9f1d', width: '50px', height: '50px', position: 'absolute', left: '60px', top: '60px' } as ImageComponentProps
+    }
 ]
 
 const useStore = defineStore('editor', {
@@ -112,6 +113,12 @@ const useStore = defineStore('editor', {
                     ;(component.props[key as keyof ComponentProps] as any) = value
                 }
             }
+        },
+        updateComponentProps(props: Partial<ComponentProps>, id: string) {
+            this.setActiveComponent(id)
+            if (!this.currentElementData) return
+            const oldProps = this.currentElementData?.props
+            this.currentElementData.props = {...oldProps, ...props}
         },
         deleteComponent() {
             this.components = this.components.filter((component) => component.id !== this.currentElement)

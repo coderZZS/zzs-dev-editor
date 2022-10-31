@@ -2,12 +2,12 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-10-27 14:11:50
- * @LastEditTime: 2022-10-28 16:59:06
+ * @LastEditTime: 2022-10-31 15:22:39
 -->
 <template>
     <a-collapse v-model:activeKey="currentKey">
         <a-collapse-panel v-for="item in editGroups" :key="item.text" :header="item.text">
-            <props-table :props="item.props" :mutation-extra-data="{ isProps: true }"></props-table>
+            <props-table :props="item.props" :mutation-extra-data="{ isProps: true }" @change="onChange"></props-table>
         </a-collapse-panel>
     </a-collapse>
 </template>
@@ -66,6 +66,10 @@ const editGroups = computed(() => {
         }
     })
 })
+const emit = defineEmits(['change'])
+const onChange = (e: any) => {
+    emit('change', e)
+}
 </script>
 
 <style scoped></style>
