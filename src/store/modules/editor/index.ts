@@ -2,19 +2,22 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-06-21 17:54:24
- * @LastEditTime: 2022-10-31 15:46:13
+ * @LastEditTime: 2022-11-04 11:46:44
  */
 import { defineStore } from 'pinia'
 // import piniaPersistConfig from '@/store/config/piniaPersistConfig'
 import { v4 as uuidv4 } from 'uuid'
 import { TextDefaultProps, ImageComponentProps } from '@/defaultProps'
 import { commonDefaultProps } from '@/defaultProps'
+import { cloneDeep } from 'lodash-es'
+import { message } from 'ant-design-vue'
 export interface EditorProps {
     // 组件数据列表
     components: ComponentData[]
     // 当前编辑的元素  uuid
     currentElement: string | null,
-    page: PageData
+    page: PageData,
+    copiedComponent: ComponentData | null
 }
 
 export interface PageDataProps {
@@ -88,7 +91,8 @@ const useStore = defineStore('editor', {
                     backgroundColor: '#fff'
                 },
                 title: '页面标题'
-            }
+            },
+            copiedComponent: null,
         }
     },
     getters: {
@@ -125,6 +129,28 @@ const useStore = defineStore('editor', {
         },
         setPageData({key, value}: {key: string; value: any}) {
             this.page.props[key as keyof PageDataProps] = value
+        },
+        setCopiedComponent() {
+            if (!this.currentElement) return message.error('未选择图层')
+            this.copiedComponent = this.currentElementData
+            message.success('已复制图层')
+        },
+        copyComponent() {
+            if (!this.copiedComponent) message.warning('没有复制图层')
+            const copyComponent = cloneDeep(this.copiedComponent)
+            if (copyComponent && copyComponent.layerName) {
+                copyComponent.layerName += '副本'
+            }
+            if (copyComponent && copyComponent.id) {
+                copyComponent.id = uuidv4()
+            }
+            if (copyComponent) {
+                this.addComponent(copyComponent)
+                message.success('已粘贴图层')
+            }
+        },
+        cancelSelectComponent () {
+            this.currentElement = null
         }
     },
     persist: false,

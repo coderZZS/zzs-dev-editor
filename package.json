@@ -15,6 +15,7 @@
     "cos-js-sdk-v5": "^1.2.15",
     "cropperjs": "^1.5.12",
     "happy-dom": "^6.0.4",
+    "hotkeys-js": "^3.10.0",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.0",
     "pinia": "^2.0.14",

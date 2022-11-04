@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: BZR
  * @Date: 2022-09-07 10:36:53
- * @LastEditTime: 2022-10-31 15:25:25
+ * @LastEditTime: 2022-11-04 11:25:03
 -->
 <template>
     <div class="editor">
@@ -64,6 +64,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import initHotKeys from '@/plugins/hotKeys'
 import Header from '../../components/common/Header.vue'
 import ComponentTemplateList from '@/components/editor/ComponentTemplateList.vue'
 import { defaultTextTemplates } from '@/defaultTemplates'
@@ -77,6 +78,8 @@ import Handles from '@/components/editor/Handles'
 import { ComponentData } from '@/store/modules/editor'
 import { ChangeEmitType } from '@/components/editor/LayerList.vue'
 import mitt from '@/utils/mitt'
+
+initHotKeys()
 
 type UpdateCompnentType = {
     key: any
