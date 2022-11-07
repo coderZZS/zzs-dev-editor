@@ -2,7 +2,7 @@
  * @Descripttion: axios请求封装
  * @Author: BZR
  * @Date: 2021-12-24 10:26:12
- * @LastEditTime: 2022-10-24 15:28:50
+ * @LastEditTime: 2022-11-07 17:48:11
  */
 import axios, { Axios, AxiosResponse } from 'axios'
 // 创建实例
@@ -73,8 +73,10 @@ export const get =  <T = AxiosResponse> ({ url, params, server = '/api' }: Reque
  * @param { url, data, isLoading, server }
  * @returns 数据
  */
-export const post = <T = AxiosResponse> ({ url, data, server = 'api', params }: RequestParams): Promise<T> => {
+export const post = <T = AxiosResponse> ({ url, data, server = '/api', params }: RequestParams): Promise<T> => {
     const URL = getURL(server, url)
+    console.log('URL', URL);
+    
     return new Promise((resolve, reject) => {
         http.post(URL, data || {}, {
             params,

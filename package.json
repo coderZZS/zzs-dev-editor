@@ -43,6 +43,7 @@
     "eslint-plugin-vue": "^9.1.1",
     "flush-promises": "^1.0.2",
     "jsdom": "^20.0.0",
+    "json-server": "^0.17.1",
     "msw": "^0.47.2",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",

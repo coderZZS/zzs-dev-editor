@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: BZR
  * @Date: 2022-09-07 10:22:19
- * @LastEditTime: 2022-10-27 15:21:14
+ * @LastEditTime: 2022-11-07 15:54:17
  */
 export default [
     {
@@ -24,5 +24,10 @@ export default [
         path: '/test',
         name: 'test',
         component: () => import('./test/index.vue'),
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('./login/index.vue'),
     },
 ]
